@@ -1,0 +1,93 @@
+//Implementation of sorting techniques
+#include<iostream>
+using namespace std;
+#define SZ 5
+class Sort
+{
+private:
+int a[SZ];
+public:
+void getData()
+{
+cout<<"Enter array elements: ";
+for(int i=0;i<SZ;i++)
+{
+cin>>a[i];
+}
+}
+void selectionSort()
+{
+for(int i=0;i<SZ-1;i++)
+{
+int min = i;
+for(int j=i+1;j<SZ;j++)
+{
+if(a[j]<a[min])
+{
+min = j;
+}
+}
+if(min!=i)
+{
+int temp = a[i];
+a[i] = a[min];
+a[min] = temp;
+}
+}
+
+}
+void insertionSort()
+{
+for(int i=1;i<SZ;i++)
+{
+int key = a[i];
+int j= i-1;
+while(j>=0&&a[j]>key)
+{
+a[j+1] = a[j];
+j--;
+}
+a[j+1] = key;
+}
+}
+void display()
+{
+for(int i=0;i<SZ;i++)
+cout<<a[i]<<" ";
+}
+};
+int main()
+{
+Sort ob;
+int ch;
+ob.getData();
+cout<<endl;
+cout<<"Sorting Techniques"<<endl;
+cout<<"1. selection Sort "<<endl;
+cout<<"2. Insertion Sort "<<endl;
+cout<<"3. Exit. ThankYou!! "<<endl;
+cout<<endl;
+cout<<"Enter choice: ";
+cin>>ch;
+
+if(ch==1)
+
+{
+ob.selectionSort();
+ob.display();
+}
+else if(ch==2)
+{
+ob.insertionSort();
+ob.display();
+}
+else if(ch==3)
+{
+cout<<"Exit. ThankYou!! "<<endl;
+}
+else
+{
+cout<< "Invalid choice "<<endl;
+}
+return 0;
+}  
