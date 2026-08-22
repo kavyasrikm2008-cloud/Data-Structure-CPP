@@ -1,0 +1,142 @@
+//implementation of stack
+#include<iostream>
+using namespace std;
+#define SZ 5
+class MyStack
+{
+private:
+int s[SZ];
+int top;
+public:
+MyStack()
+{
+top = -1;
+}
+void push()
+{
+int data;
+cout<<"Enter Data te be push into stack: ";
+cin>>data;
+if(top==SZ-1)
+{
+cout<<"stack is full"<<endl;
+return;
+}
+else
+{
+top++;
+s[top] = data;
+}
+}
+void pop()
+{
+if(top==-1)
+
+{
+cout<<"stack is empty"<<endl;
+return;
+}
+else
+{
+cout<<"Popped Element is: "<<s[top]<<endl;
+top--;
+}
+}
+void peek()
+{
+if(top==-1)
+{
+cout<<"stack is empty"<<endl;
+return;
+}
+else
+{
+cout<<"The element present in the top: "<<s[top]<<endl;
+}
+}
+bool isFull()
+{
+if(top==SZ-1)
+return true;
+else
+return false;
+}
+bool isEmpty()
+{
+if(top==-1)
+return true;
+else
+return false;
+}
+void display()
+{
+if(top==-1)
+{
+
+cout<<"stack is empty"<<endl;
+return;
+}
+else
+{
+cout<<"The stack is ";
+for(int i=top;i>=0;i--)
+{
+cout<<s[i]<<endl;
+}
+}
+}
+};
+int main()
+{
+MyStack ob;
+int ch;
+do
+{
+cout<<endl;
+cout<<"1. Push the element"<<endl;
+cout<<"2. Pop the element"<<endl;
+cout<<"3. Print the Top element (peek)"<<endl;
+cout<<"4. check if Stack is full"<<endl;
+cout<<"5. check if stack is empty"<<endl;
+cout<<"6. display the stack"<<endl;
+cout<<"7. Exit. ThankYou!!"<<endl;
+cout<<endl;
+cout<<"Enter the choice: ";
+cin>>ch;
+cout<<endl;
+switch(ch)
+{
+case 1:
+ob.push();
+break;
+case 2:
+ob.pop();
+break;
+
+case 3:
+ob.peek();
+break;
+case 4:
+if(ob.isFull())
+cout<<"stack is full"<<endl;
+else
+cout<<"Have space in stack"<<endl;
+break;
+case 5:
+if(ob.isEmpty())
+cout<<"stack is empty"<<endl;
+else
+cout<<"Have element in stack"<<endl;
+break;
+case 6:
+ob.display();
+break;
+case 7:
+cout<<"Exit. ThankYou!!"<<endl;
+break;
+default:
+cout<<"Please Enter valid choice "<<endl;
+}
+}while(ch!=7);
+return 0;
+}
