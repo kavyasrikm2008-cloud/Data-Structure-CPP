@@ -1,0 +1,222 @@
+//Implementation of linear searching technique
+#include<iostream>
+using namespace std;
+#define SZ 5
+class LinearSearch
+{
+private:
+int data[SZ],key,locn;
+public:
+void getData()
+{
+cout<<"Enter Array: ";
+for(int i=0;i<SZ;i++)
+{
+cin>>data[i];
+}
+cout<<"Enter key : ";
+cin>>key;
+}
+void seqSearch()
+{
+for(int i=0;i<SZ;i++)
+{
+if(data[i]==key)
+{
+locn = i;
+return;
+}
+}
+locn = -1;
+}
+void sentinelSearch()
+{
+data[SZ-1] = key;
+int i=0;
+
+while(data[i]!=key)
+{
+i++;
+}
+if(i==SZ)
+locn = -1;
+else
+locn = i;
+}
+void probabilisticSearch()
+{
+for(int i=0;i<SZ;i++)
+{
+if(data[i]==key)
+{
+locn = i;
+if(i>0)
+{
+int temp = data[i];
+data[i] = data[i+1];
+data[i+1] = temp;
+}
+return;
+}
+}
+locn = -1;
+}
+void display()
+{
+if(locn==-1)
+cout<<"Element not found"<<endl;
+else
+cout<<"Element is found at index "<<locn<<endl;
+}
+};
+int main()
+{
+LinearSearch obj;
+int ch;
+obj.getData();
+
+do{
+cout<<endl;
+cout<<"Enter your type of Linear search "<<endl;
+cout<<"1. sequential search "<<endl;
+cout<<"2. sentinel search "<<endl;
+cout<<"3. probabilistic search "<<endl;
+cout<<"4. Exit "<<endl;
+cout<<endl;
+cout<<"Enter your choice: ";
+cin>>ch;
+switch(ch)
+{
+case 1:
+obj.seqSearch();
+obj.display();
+break;
+case 2:
+obj.sentinelSearch();
+obj.display();
+break;
+case 3:
+obj.probabilisticSearch();
+obj.display();
+break;
+case 4:
+cout<<"Thank You ! Exit "<<endl;
+break;
+default:
+cout<<"Invalid choice "<<endl;
+}
+}while(ch!=4);
+return 0;
+}
+
+
+//Implementation of types of binary search
+#include<iostream>
+using namespace std;
+#define SZ 5
+class BinarySearch
+{
+public:
+int data[SZ],key,locn;
+
+void getData()
+{
+cout<<"Enter Array: ";
+for(int i=0;i<SZ;i++)
+{
+cin>>data[i];
+}
+cout<<"Enter key: ";
+cin>>key;
+}
+
+void iterative()
+{
+int low = 0;
+int high = SZ-1;
+int mid;
+while(low<=high)
+{
+mid = (low + high)/2;
+if(data[mid]==key)
+{
+locn = mid;
+return;
+}
+else if(data[mid]<key)
+{
+high = mid+1;
+}
+else
+{
+low = mid-1;
+}
+}
+locn = -1;
+}
+void recursive(int data[SZ],int low,int high)
+{
+int key, locn;
+if(low>high)
+{
+locn = -1;
+return;
+}
+int mid = (low + high)/2;
+if(data[mid]==key)
+{
+locn = mid;
+return;
+}
+
+else if(data[mid]<key)
+{
+recursive(data,mid+1,high);
+}
+else
+{
+recursive(data,low,mid-1);
+}
+}
+void display()
+{
+if(locn==-1)
+cout<<"Element not found"<<endl;
+else
+cout<<"Element is found at index "<<locn<<endl;
+}
+};
+int main()
+{
+BinarySearch obj;
+int ch,data[SZ];
+obj.getData();
+do
+{
+cout<<endl;
+cout<<"Enter your type of Binary search"<<endl;
+cout<<"1. iterative search"<<endl;
+cout<<"2. recursive search"<<endl;
+cout<<"3. Exit"<<endl;
+cout<<endl;
+cout<<"Enter your choice: ";
+cin>>ch;
+switch(ch)
+{
+case 1:
+obj.iterative();
+obj.display();
+break;
+case 2:
+
+obj.recursive(data,0,SZ-1);
+obj.display();
+break;
+case 3:
+cout<<"Thank You! Exit"<<endl;
+break;
+default:
+cout<<"Invalid choice"<<endl;
+}
+}while(ch!=3);
+return 0;
