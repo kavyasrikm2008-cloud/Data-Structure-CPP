@@ -1,0 +1,132 @@
+//Implementation of singly Linked List Operations
+#include<iostream>
+using namespace std;
+struct Node
+{
+int data;
+Node *next;
+};
+Node *insertBeg(Node *first, int x)
+{
+Node *nn = new Node;
+nn->data = x;
+nn->next = first;
+return nn;
+}
+Node *insertEnd(Node *first, int x)
+{
+Node *nn = new Node;
+nn->data = x;
+nn->next = NULL;
+if(first == NULL)
+return nn;
+Node *temp = first;
+while(temp->next != NULL)
+temp = temp->next;
+temp->next = nn;
+return first;
+}
+Node *deleteNode(Node *first)
+{
+if(first==NULL)
+{
+cout<<"list is empty"<<endl;
+return first;
+}
+Node *temp = first;
+first = first->next;
+delete temp;
+return first;
+}
+
+void count(Node *first)
+{
+int count = 0;
+Node *temp = first;
+while(temp!=NULL)
+{
+count++;
+temp = temp->next;
+}
+cout<<"count: "<<count<<endl;
+}
+Node *search(Node *first, int x)
+{
+Node *temp = first;
+while(temp!=NULL)
+{
+if(temp->data==x)
+{
+cout<<"element found"<<endl;
+return first;
+}
+temp = temp->next;
+}
+cout<<"element not found"<<endl;
+return first;
+}
+void display(Node *first)
+{
+if(first==NULL)
+{
+cout<<"list is empty"<<endl;
+return;
+}
+Node *temp = first;
+while(temp!=NULL)
+{
+cout<<temp->data<<" ";
+temp = temp->next;
+}
+}
+int main()
+{
+
+Node *first = NULL;
+int ch;
+do{
+cout<<endl;
+cout<<"---MENU DRIVEN---"<<endl;
+cout<<"1. InsertAtBeginning"<<endl;
+cout<<"2. InsertAtEnd"<<endl;
+cout<<"3. DeleteNode"<<endl;
+cout<<"4. Count the Elements"<<endl;
+cout<<"5. search the Element"<<endl;
+cout<<"6. Display"<<endl;
+cout<<"7. Exit"<<endl;
+cout<<endl;
+cout<<"Enter the choice: ";
+cin>>ch;
+switch(ch)
+{
+case 1:
+first = insertBeg(first,10);
+first =insertBeg(first,15);
+first =insertBeg(first,17);
+break;
+case 2:
+first = insertEnd(first,20);
+first = insertEnd(first,30);
+break;
+case 3:
+first = deleteNode(first);
+break;
+case 4:
+count(first);
+break;
+case 5:
+search(first,15);
+break;
+case 6:
+display(first);
+break;
+
+case 7:
+cout<<"Exit"<<endl;
+break;
+default:
+cout<<"Invalid choice"<<endl;
+}
+}while(ch!=7);
+return 0;
+}
