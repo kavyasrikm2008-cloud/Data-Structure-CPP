@@ -1,0 +1,150 @@
+#include<iostream>
+using namespace std;
+struct Node
+{
+    int data;
+    struct Node *next;
+};
+struct Head 
+{
+    int count = 0;
+    Node *front;
+    Node *rear;
+};
+Head *createHead()
+{
+    Head *h = new Head();
+    h->count = 0;
+    h->front = NULL;
+    h->rear = NULL;
+    return h;
+}
+void enqueue(Head *h,int x)
+{
+    Node *nn = new Node();
+    nn->data = x;
+    nn->next = NULL;
+    if(h->front==NULL)
+    {
+        h->front = nn;
+        h->rear = nn;
+    }
+    else
+    {
+        h->rear->next = nn;
+        h->rear = nn;
+    
+    }
+    h->count++;
+    
+}
+void dequeue(Head *h)
+{
+    if(h->front == NULL)
+    {
+        cout<<"list empty"<<endl;
+        return;
+    }
+    Node *temp = h->front;
+    cout<<temp->data;
+    h->front = temp->next;
+    if(h->front==NULL)
+    {
+        h->rear = NULL;
+    }
+    delete temp;
+    h->count--;
+}
+void queueFront(Head *h)
+{
+    if(h->front == NULL)
+    {
+        cout<<"list empty"<<endl;
+        return;
+    }
+    cout<<h->front->data;
+}
+void isEmpty(Head *h)
+{
+   
+    if(h->front==NULL)
+    {
+        cout<<"list empty"<<endl;
+        return;
+    }
+    else
+    cout<<"list not empty"<<endl;
+}
+void count(Head *h)
+{
+    cout<<h->count;
+}
+void display(Head *h)
+{
+    if(h->front==NULL)
+    {
+        cout<<"list empty"<<endl;
+        return;
+    }
+    Node *temp = h->front;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+}
+int main()
+{
+    Head *h = createHead();
+    int ch,num;
+    do{
+        cout<<"\n 1.ENQUEUE "<<endl;
+        cout<<"2. DEQUEUE "<<endl;
+        cout<<"3. QUEUEFRONT "<<endl;
+        cout<<"4. ISEMPTY "<<endl;
+        cout<<"5. COUNT "<<endl;
+        cout<<"6. DISPLAY "<<endl;
+        cout<<"7. EXIT "<<endl;
+        cout<<endl;
+        
+        cout<<"Enter your choice: ";
+        cin>>ch;
+        
+        switch(ch)
+        {
+            case 1: 
+            cout<<"Enter element: ";
+            cin>>num;
+            enqueue(h,num);
+            break;
+            
+            case 2:
+            dequeue(h);
+            break;
+            
+            case 3:
+            queueFront(h);
+            break;
+            
+            case 4:
+            isEmpty(h);
+            break;
+            
+            case 5:
+            count(h);
+            break;
+            
+            case 6:
+            display(h);
+            break;
+            
+            case 7:
+            cout<<"Exit"<<endl;
+            break;
+            
+            default:
+            cout<<"Invalid Choice"<<endl;
+            
+        }
+    }while(ch!=7);
+}
