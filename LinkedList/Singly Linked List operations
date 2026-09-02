@@ -1,132 +1,271 @@
-//Implementation of singly Linked List Operations
 #include<iostream>
 using namespace std;
 struct Node
 {
-int data;
-Node *next;
+    int data;
+    struct Node *next;
 };
-Node *insertBeg(Node *first, int x)
+class Linked
 {
-Node *nn = new Node;
-nn->data = x;
-nn->next = first;
-return nn;
-}
-Node *insertEnd(Node *first, int x)
-{
-Node *nn = new Node;
-nn->data = x;
-nn->next = NULL;
-if(first == NULL)
-return nn;
-Node *temp = first;
-while(temp->next != NULL)
-temp = temp->next;
-temp->next = nn;
-return first;
-}
-Node *deleteNode(Node *first)
-{
-if(first==NULL)
-{
-cout<<"list is empty"<<endl;
-return first;
-}
-Node *temp = first;
-first = first->next;
-delete temp;
-return first;
-}
+    private:
+    Node *head;
+    public:
+    
+    Linked()
+    {
+        head = new Node;
+        head->next = NULL;
+    }
+    void insertBeg(int x)
+    {
+        Node *nn = new Node;
+        nn->data = x;
+        nn->next = head->next;
+        head->next = nn;
+    }
+    void insertEnd(int x)
+    {
+        Node *nn = new Node;
+        nn->data = x;
+        nn->next = NULL;
+        if(head->next==NULL)
+        {
+            head->next = nn;
+            return;
+        }
+        Node *temp = head->next;
+        while(temp->next!=NULL)
+        {
+            temp = temp->next;
+        }
+        temp->next = nn;
+    }
+    void insertAfter(int x, int y)
+    {
+        Node *temp = head->next;
+        while(temp!=NULL && temp->data!=y)
+        {
+            temp = temp->next;
+        }
+        if(temp==NULL)
+        {
+            cout<<"node not found"<<endl;
+            return;
+        }
+        Node *nn = new Node;
+        nn->data = x;
+        nn->next = temp->next;
+        temp->next = nn;
+    }
+    void insertbtw(int x, int y, int z)
+    {
+        Node *temp = head->next;
+        while(temp!=NULL && temp->data!=y)
+        {
+            temp = temp->next;
+        }
+        if(temp==NULL || temp->next==NULL)
+        {
+            cout<<"node not found"<<endl;
+            return;
+        }
+        if(temp->next->data!=z)
+        {
+            cout<<"adjancent node not found"<<endl;
+            return;
+        }
+        Node *nn = new Node;
+        nn->data = x;
+        nn->next = temp->next;
+        temp->next = nn;
+    }
+    void deletefirst()
+    {
+        if(head->next==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *temp = head->next;
+        head->next = temp->next;
+        delete temp;
+    }
+    void deletelast()
+    {
+        if(head->next==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *prev = head;
+        Node *temp = head->next;
+        while(temp->next!=NULL)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+        prev->next = NULL;
+        delete temp;
+    }
+    void deletex(int x)
+    {
+        if(head->next==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *prev = head;
+        Node *temp = head->next;
+        while(temp->next!=NULL && temp->data!=x)
+        {
+            prev = temp;
+            temp = temp->next;
+        }
+        if(temp==NULL)
+        {
+            cout<<"node not found"<<endl;
+            return;
+        }
+        prev->next = temp->next;
+        delete temp;
+        
+        
+    }
+    void search(int x)
+    {
+        Node *temp = head->next;
+        while(temp!=NULL)
+        {
+            if(temp->data==x)
+            {
+                cout<<"element found"<<endl;
+                return;
+            }
+            temp = temp->next;
+        }
+        cout<<"elemnet not found"<<endl;
+    }
+    void count()
+    {
+        int count = 0;
+        Node *temp = head->next;
+        while(temp!=NULL)
+        {
+            count++;
+            temp = temp->next;
+        }
+        cout<<"count: "<<count<<endl;
+    }
+    void display()
+    {
+        if(head->next==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *temp = head->next;
+        while(temp!=NULL)
+        {
+            cout<<temp->data<<" ";
+            temp = temp->next;
+        }
+    }
+};
 
-void count(Node *first)
-{
-int count = 0;
-Node *temp = first;
-while(temp!=NULL)
-{
-count++;
-temp = temp->next;
-}
-cout<<"count: "<<count<<endl;
-}
-Node *search(Node *first, int x)
-{
-Node *temp = first;
-while(temp!=NULL)
-{
-if(temp->data==x)
-{
-cout<<"element found"<<endl;
-return first;
-}
-temp = temp->next;
-}
-cout<<"element not found"<<endl;
-return first;
-}
-void display(Node *first)
-{
-if(first==NULL)
-{
-cout<<"list is empty"<<endl;
-return;
-}
-Node *temp = first;
-while(temp!=NULL)
-{
-cout<<temp->data<<" ";
-temp = temp->next;
-}
-}
 int main()
 {
+    Linked l;
+    int choice, x, y, z;
 
-Node *first = NULL;
-int ch;
-do{
-cout<<endl;
-cout<<"---MENU DRIVEN---"<<endl;
-cout<<"1. InsertAtBeginning"<<endl;
-cout<<"2. InsertAtEnd"<<endl;
-cout<<"3. DeleteNode"<<endl;
-cout<<"4. Count the Elements"<<endl;
-cout<<"5. search the Element"<<endl;
-cout<<"6. Display"<<endl;
-cout<<"7. Exit"<<endl;
-cout<<endl;
-cout<<"Enter the choice: ";
-cin>>ch;
-switch(ch)
-{
-case 1:
-first = insertBeg(first,10);
-first =insertBeg(first,15);
-first =insertBeg(first,17);
-break;
-case 2:
-first = insertEnd(first,20);
-first = insertEnd(first,30);
-break;
-case 3:
-first = deleteNode(first);
-break;
-case 4:
-count(first);
-break;
-case 5:
-search(first,15);
-break;
-case 6:
-display(first);
-break;
+    do
+    {
+        cout << "\n--- LINKED LIST MENU ---\n";
+        cout << "1. Insert Beginning\n";
+        cout << "2. Insert End\n";
+        cout << "3. Insert After\n";
+        cout << "4. Insert Between\n";
+        cout << "5. Delete First\n";
+        cout << "6. Delete Last\n";
+        cout << "7. Delete X\n";
+        cout << "8. Search\n";
+        cout << "9. Count\n";
+        cout << "10. Display\n";
+        cout << "11. Exit\n";
 
-case 7:
-cout<<"Exit"<<endl;
-break;
-default:
-cout<<"Invalid choice"<<endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch(choice)
+        {
+            case 1:
+                cout << "Enter value: ";
+                cin >> x;
+                l.insertBeg(x);
+                break;
+
+            case 2:
+                cout << "Enter value: ";
+                cin >> x;
+                l.insertEnd(x);
+                break;
+
+            case 3:
+                cout << "Enter value to insert: ";
+                cin >> x;
+                cout << "Insert after: ";
+                cin >> y;
+                l.insertAfter(x, y);
+                break;
+
+            case 4:
+                cout << "Enter value to insert: ";
+                cin >> x;
+                cout << "Enter first node: ";
+                cin >> y;
+                cout << "Enter second node: ";
+                cin >> z;
+                l.insertbtw(x, y, z);
+                break;
+
+            case 5:
+                l.deletefirst();
+                break;
+
+            case 6:
+                l.deletelast();
+                break;
+
+            case 7:
+                cout << "Enter value to delete: ";
+                cin >> x;
+                l.deletex(x);
+                break;
+
+            case 8:
+                cout << "Enter value to search: ";
+                cin >> x;
+                l.search(x);
+                break;
+
+            case 9:
+                l.count();
+                break;
+
+            case 10:
+                l.display();
+                cout << endl;
+                break;
+
+            case 11:
+                cout << "Exiting...";
+                break;
+
+            default:
+                cout << "Invalid choice";
+        }
+
+    } while(choice != 11);
+
+    return 0;
 }
-}while(ch!=7);
-return 0;
-}
+
