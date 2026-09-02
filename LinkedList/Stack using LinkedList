@@ -1,136 +1,120 @@
+
+
 #include<iostream>
 using namespace std;
 struct Node
 {
     int data;
-    struct Node *next;
+    Node *next;
 };
 struct Head 
 {
-    int count = 0;
+    int count;
     Node *top;
 };
-Head *createHead()
+class Mystack
 {
-    Head *h = new Head();
-    h->count = 0;
-    h->top = NULL;
-    return h;
-}
-void push(Head *h,int x)
-{
-    Node *nn = new Node();
-    nn->data = x;
-    nn->next = h->top;
-    h->top = nn;
-    h->count++;
-}
-void pop(Head *h)
-{
-    if(h->top == NULL)
+    public:
+    Head *h;
+    void createstack()
     {
-        cout<<"list empty"<<endl;
-        return;
+        h = new Head;
+        h->count = 0;
+        h->top = NULL;
     }
-   Node* temp = h->top;
-    cout<<temp->data;
-    h->top = temp->next;
-    delete temp;
-    h->count--;
-}
-void peek(Head *h)
-{
-    if(h->top == NULL)
+    void push(int x)
     {
-        cout<<"list empty"<<endl;
-        return;
+        Node *nn = new Node;
+        nn->data = x;
+        nn->next = h->top;
+        h->top = nn;
+        h->count++;
     }
-    cout<<h->top->data;
-}
-void isEmpty(Head *h)
-{
-    if(h->top == NULL)
+    void pop()
     {
-        cout<<"list Empty"<<endl;
-        return;
+        if(h->top==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *temp = h->top;
+        cout<<temp->data;
+        h->top = temp->next;
+        delete temp;
+        h->count--;
     }
-    else
+    void peek()
     {
-        cout<<"list is not empty"<<endl;
+       if(h->top==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        cout<<"peek: "<<h->top->data;
     }
-}
-void count(Head *h)
-{
-    cout<<h->count;
-}
-void display(Head *h)
-{
-    if(h->top == NULL)
+    void display()
     {
-        cout<<"list empty"<<endl;
-        return;
+        if(h->top==NULL)
+        {
+            cout<<"empty"<<endl;
+            return;
+        }
+        Node *temp = h->top;
+        while(temp!=NULL)
+        {
+            cout<<temp->data<<" ";
+            temp = temp->next;
+        }
     }
-    
-    Node *temp = h->top;
-    while(temp!=NULL)
-    {
-        cout<<temp->data<<" ";
-        temp = temp->next;
-    }
-}
+};
 int main()
 {
-    Head *h = createHead();
-    int ch,num;
-    do{
-        cout<<"\n 1. PUSH "<<endl;
-        cout<<"2. POP "<<endl;
-        cout<<"3. PEEK "<<endl;
-        cout<<"4. ISEMPTY "<<endl;
-        cout<<"5. COUNT "<<endl;
-        cout<<"6. DISPLAY "<<endl;
-        cout<<"7. EXIT "<<endl;
-        cout<<endl;
-        cout<<"Enter your choice: ";
-        cin>>ch;
-        
-        switch(ch)
+    Mystack s;
+    s.createstack();
+
+    int choice, x;
+
+    do
+    {
+        cout << "\n\n--- STACK MENU ---";
+        cout << "\n1. Push";
+        cout << "\n2. Pop";
+        cout << "\n3. Peek";
+        cout << "\n4. Display";
+        cout << "\n5. Exit";
+
+        cout << "\nEnter your choice: ";
+        cin >> choice;
+
+        switch(choice)
         {
             case 1:
-            cout<<"Enter element: ";
-            cin>>num;
-            push(h,num);
-            break;
-            
+                cout << "Enter value: ";
+                cin >> x;
+                s.push(x);
+                break;
+
             case 2:
-            pop(h);
-            break;
-            
+                s.pop();
+                break;
+
             case 3:
-            peek(h);
-            break;
-            
+                s.peek();
+                break;
+
             case 4:
-            isEmpty(h);
-            break;
-            
+                s.display();
+                break;
+
             case 5:
-            count(h);
-            break;
-            
-            case 6:
-            display(h);
-            break;
-            
-            case 7:
-            cout<<"Exit"<<endl;
-            break;
-            
+                cout << "Exit";
+                break;
+
             default:
-            cout<<"Invalid choice"<<endl;
-            
-            
+                cout << "Invalid choice";
         }
-    }while(ch!=7);
-    
+
+    } while(choice != 5);
+
+    return 0;
 }
