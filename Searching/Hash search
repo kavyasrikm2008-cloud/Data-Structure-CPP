@@ -1,0 +1,112 @@
+#include<iostream>
+using namespace std;
+#define SZ 7
+struct Node
+{
+    int data;
+    Node *next;
+};
+struct Head 
+{
+    int count;
+    Node *first;
+};
+class HashTable
+{
+    public:
+    Head *ht;
+    HashTable()
+    {
+        ht = new Head[SZ];
+        for(int i=0;i<SZ;i++)
+        {
+            ht[i].count = 0;
+            ht[i].first = NULL;
+        }
+    }
+    void insert(int key)
+    {
+        int hv = key%SZ;
+        Node *nn = new Node;
+        nn->data = key;
+        nn->next = ht[hv].first;
+        ht[hv].first = nn;
+        ht[hv].count++;
+    }
+    void search(int key)
+    {
+        int hv = key%SZ;
+        Node *temp = ht[hv].first;
+        while(temp!=NULL)
+        {
+            if(temp->data==key)
+            {
+                cout<<"key found"<<endl;
+                return;
+            }
+            temp = temp->next;
+        }
+    }
+    void display()
+    {
+        for(int i=0;i<SZ;i++)
+        {
+            cout<<i<<" ";
+            Node *temp = ht[i].first;
+            while(temp!=NULL)
+            {
+                cout<<temp->data<<" ";
+                temp = temp->next;
+            }
+            cout<<endl;
+        }
+    }
+    
+    
+};
+int main()
+{
+    HashTable h;
+
+    int ch, key;
+
+    do
+    {
+        cout << "\n1. Insert";
+        cout << "\n2. Search";
+        cout << "\n3. Display";
+        cout << "\n4. Exit";
+
+        cout << "\nEnter choice: ";
+        cin >> ch;
+
+        switch(ch)
+        {
+            case 1:
+                cout << "Enter key: ";
+                cin >> key;
+                h.insert(key);
+                break;
+
+            case 2:
+                cout << "Enter key: ";
+                cin >> key;
+                h.search(key);
+                break;
+
+            case 3:
+                h.display();
+                break;
+
+            case 4:
+                cout << "Exit";
+                break;
+
+            default:
+                cout << "Invalid choice";
+        }
+
+    } while(ch != 4);
+
+    return 0;
+}
