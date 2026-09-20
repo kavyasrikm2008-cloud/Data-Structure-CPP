@@ -1,0 +1,285 @@
+// Implementation of Doubly Linked List
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node *prev, *next;
+};
+
+struct Head
+{
+    int cnt;
+    Node *front, *rear;
+};
+
+class DoublyLL
+{
+    Head *head;
+
+public:
+
+    DoublyLL()
+    {
+        head = new Head;
+        head->cnt = 0;
+        head->front = NULL;
+        head->rear = NULL;
+    }
+
+    // Insert at beginning
+    void insertbeg()
+    {
+        int x;
+        cout << "Enter Data to be inserted: ";
+        cin >> x;
+
+        Node *nn = new Node;
+        nn->data = x;
+        nn->prev = NULL;
+        nn->next = NULL;
+
+        if (head->cnt == 0)
+        {
+            head->front = head->rear = nn;
+            head->cnt++;
+            return;
+        }
+
+        nn->next = head->front;
+        head->front->prev = nn;
+        head->front = nn;
+        head->cnt++;
+    }
+
+    // Insert at end
+    void insertend()
+    {
+        int x;
+        cout << "Enter Data to be inserted: ";
+        cin >> x;
+
+        Node *nn = new Node;
+        nn->data = x;
+        nn->prev = NULL;
+        nn->next = NULL;
+
+        if (head->cnt == 0)
+        {
+            head->front = head->rear = nn;
+            head->cnt++;
+            return;
+        }
+
+        nn->prev = head->rear;
+        head->rear->next = nn;
+        head->rear = nn;
+        head->cnt++;
+    }
+
+    // Search
+    Node *search(int x)
+    {
+        if (head->cnt == 0)
+        {
+            cout << "Empty list" << endl;
+            return NULL;
+        }
+
+        Node *temp = head->front;
+
+        while (temp != NULL)
+        {
+            if (temp->data == x)
+                return temp;
+
+            temp = temp->next;
+        }
+
+        return NULL;
+    }
+
+    // Delete a node
+    void deleteDll()
+    {
+        int x;
+        cout << "Enter Data to Delete: ";
+        cin >> x;
+
+        Node *locn = search(x);
+
+        if (locn == NULL)
+        {
+            cout << "Data not found" << endl;
+            return;
+        }
+
+        // Only one node
+        if (head->cnt == 1)
+        {
+            head->front = NULL;
+            head->rear = NULL;
+        }
+
+        // Delete first node
+        else if (locn == head->front)
+        {
+            head->front = locn->next;
+            head->front->prev = NULL;
+        }
+
+        // Delete last node
+        else if (locn == head->rear)
+        {
+            head->rear = locn->prev;
+            head->rear->next = NULL;
+        }
+
+        // Delete middle node
+        else
+        {
+            locn->prev->next = locn->next;
+            locn->next->prev = locn->prev;
+        }
+
+        delete locn;
+        head->cnt--;
+
+        cout << "Data deleted successfully" << endl;
+    }
+
+    // Display from front to rear
+    void displayforward()
+    {
+        if (head->cnt == 0)
+        {
+            cout << "Empty list" << endl;
+            return;
+        }
+
+        Node *temp = head->front;
+
+        while (temp != NULL)
+        {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+
+        cout << endl;
+    }
+
+    // Display from rear to front
+    void displayreverse()
+    {
+        if (head->cnt == 0)
+        {
+            cout << "Empty list" << endl;
+            return;
+        }
+
+        Node *temp = head->rear;
+
+        while (temp != NULL)
+        {
+            cout << temp->data << " ";
+            temp = temp->prev;
+        }
+
+        cout << endl;
+    }
+
+    // Count
+    void count()
+    {
+        cout << "Count = " << head->cnt << endl;
+    }
+
+    // Check empty
+    bool isEmpty()
+    {
+        return head->cnt == 0;
+    }
+};
+
+int main()
+{
+    DoublyLL l;
+    int ch;
+
+    do
+    {
+        cout << "\n--- MENU DRIVEN ---" << endl;
+        cout << "1. INSERT AT BEGINNING" << endl;
+        cout << "2. INSERT AT END" << endl;
+        cout << "3. SEARCH THE DATA FROM FRONT" << endl;
+        cout << "4. DELETE THE DATA" << endl;
+        cout << "5. DISPLAY HEAD TO REAR" << endl;
+        cout << "6. DISPLAY REAR TO HEAD" << endl;
+        cout << "7. COUNT THE DATA" << endl;
+        cout << "8. CHECK ISEMPTY" << endl;
+        cout << "9. EXIT" << endl;
+
+        cout << "Enter choice: ";
+        cin >> ch;
+
+        switch (ch)
+        {
+            case 1:
+                l.insertbeg();
+                break;
+
+            case 2:
+                l.insertend();
+                break;
+
+            case 3:
+            {
+                int x;
+                cout << "Enter Data to Search: ";
+                cin >> x;
+
+                if (l.search(x))
+                    cout << "Data found" << endl;
+                else
+                    cout << "Data not found" << endl;
+
+                break;
+            }
+
+            case 4:
+                l.deleteDll();
+                break;
+
+            case 5:
+                l.displayforward();
+                break;
+
+            case 6:
+                l.displayreverse();
+                break;
+
+            case 7:
+                l.count();
+                break;
+
+            case 8:
+                if (l.isEmpty())
+                    cout << "List is empty" << endl;
+                else
+                    cout << "List is not empty" << endl;
+
+                break;
+
+            case 9:
+                cout << "EXIT" << endl;
+                break;
+
+            default:
+                cout << "Invalid choice. Enter valid choice" << endl;
+        }
+
+    } while (ch != 9);
+
+    return 0;
+}
