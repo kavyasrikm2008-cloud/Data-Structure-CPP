@@ -1,0 +1,347 @@
+//Implementation of CDLL Operations
+#include<iostream>
+using namespace std;
+struct Node 
+{
+    int data;
+    Node *prev;
+    Node *next;
+};
+struct Head 
+{
+    int count;
+    Node *rear;
+};
+class Cdll 
+{
+    Head *head;
+    public:
+    Cdll()
+    {
+        head = new Head;
+        head->count = 0;
+        head->rear = NULL;
+    }
+    void insert()
+    {
+        int x;
+        cout<<"Enter Data to be inserted: ";
+        cin>>x;
+        Node *nn = new Node;
+        nn->data = x;
+        nn->prev = NULL;
+        nn->next = NULL;
+        //empty list
+        if(head->count == 0)
+        {
+            nn->next = nn;
+            nn->prev = nn;
+            head->rear = nn;
+            head->count++;
+            return;
+            
+        }
+        //first node = rear->next
+        Node *first = head->rear->next;
+        
+        Node *temp = first;
+      
+do
+{
+    if(temp->data == x)
+    {
+        cout << "Duplicate data not allowed" << endl;
+        delete nn;
+        return;
+    }
+    temp = temp->next;
+} while(temp != first);
+
+        //insert before first node
+        if(x<first->data)
+        {
+            nn->next = first;
+            nn->prev = head->rear;
+            
+            head->rear->next = nn;
+            first->prev = nn;
+            
+            head->count++;
+            return;
+            
+        }
+        //find correct position
+        temp = first;
+        while(temp->next!=first && temp->next->data<x)
+        {
+            temp = temp->next;
+        }
+        nn->next = temp->next;
+        nn->prev = temp;
+        
+        temp->next->prev = nn;
+        temp->next = nn;
+        
+        if(temp == head->rear)
+        {
+            head->rear = nn;
+        }
+        head->count++;
+    }
+    void deleteCdll()
+    {
+        int x;
+        cout<<"enter data to be deleted: ";
+        cin>>x;
+        if(head->count == 0)
+        {
+            cout<<"list empty"<<endl;
+            return;
+        }
+        //search node
+        Node *first = head->rear->next;
+        Node *temp = first;
+        
+
+do
+{
+    if(temp->data == x)
+        break;
+
+    temp = temp->next;
+
+} while(temp != first);
+
+if(temp->data != x)
+{
+    cout << "Data not found" << endl;
+    return;
+}
+        //data not found
+        if(temp->data!=x)
+        {
+            cout<<"data not found"<<endl;
+            return;
+        }
+        //onlyone node
+        if(head->count == 1)
+        {
+            delete temp;
+            head->rear = NULL;
+            head->count = 0;
+            return;
+        }
+        //delete rear
+        if(temp == head->rear)
+        {
+            head->rear = temp->prev;
+            head->rear->next = temp->next;
+            temp->next->prev = head->rear;
+        }
+        //delete first
+        else if(temp == first)
+        {
+            head->rear->next = temp->next;
+            temp->prev->next = head->rear;
+        }
+        //delete middle
+        else
+        {
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+        }
+        delete temp;
+        head->count--;
+    }
+    void searchFromHead(int x)
+    {
+        if (head->count == 0)
+        {
+            cout << "List Empty" << endl;
+            return;
+        }
+
+        Node *first = head->rear->next;
+        Node *temp = first;
+
+        do
+        {
+            if (temp->data == x)
+            {
+                cout << "Data found" << endl;
+                return;
+            }
+
+            temp = temp->next;
+
+        } while (temp != first);
+
+        cout << "Data not found" << endl;
+    }
+
+    void searchFromRear(int x)
+    {
+        if (head->count == 0)
+        {
+            cout << "List Empty" << endl;
+            return;
+        }
+
+        Node *temp = head->rear;
+
+        do
+        {
+            if (temp->data == x)
+            {
+                cout << "Data found" << endl;
+                return;
+            }
+
+            temp = temp->prev;
+
+        } while (temp != head->rear);
+
+        cout << "Data not found" << endl;
+    }
+
+    void displayHeadToRear()
+    {
+        if (head->count == 0)
+        {
+            cout << "List empty" << endl;
+            return;
+        }
+
+        Node *first = head->rear->next;
+        Node *temp = first;
+
+        do
+        {
+            cout << temp->data << " ";
+            temp = temp->next;
+
+        } while (temp != first);
+
+        cout << endl;
+    }
+
+    void displayRearToHead()
+    {
+        if (head->count == 0)
+        {
+            cout << "List Empty" << endl;
+            return;
+        }
+
+        Node *temp = head->rear;
+
+        do
+        {
+            cout << temp->data << " ";
+            temp = temp->prev;
+
+        } while (temp != head->rear);
+
+        cout << endl;
+    }
+
+    void count()
+    {
+        cout << "Count: " << head->count << endl;
+    }
+
+    void destroy()
+{
+    if(head->count == 0)
+    {
+        cout << "List already empty" << endl;
+        return;
+    }
+
+    Node *first = head->rear->next;
+    Node *temp = first;
+
+    do
+    {
+        Node *del = temp;
+        temp = temp->next;
+        delete del;
+
+    } while(temp != first);
+
+    head->rear = NULL;
+    head->count = 0;
+
+    cout << "List destroyed" << endl;
+}
+};
+int main()
+ {
+   Cdll c;
+   int ch;
+   
+   do{
+       cout<<"\n---MENU DRIVEN--- "<<endl;
+       cout<<" 1. INSERT "<<endl;
+       cout<<" 2. DELETE "<<endl;
+       cout<<" 3. SEARCHFROMHEAD "<<endl;
+       cout<<" 4. SEARCHFROMREAR "<<endl;
+       cout<<" 5. DISPLAYHEADTOREAR "<<endl;
+       cout<<" 6. DISPLAYREARTOHEAD "<<endl;
+       cout<<" 7. COUNT "<<endl;
+       cout<<" 8. DESTORY "<<endl;
+       cout<<"\n Enter your choice : ";
+       cin>>ch;
+
+      switch(ch)
+        {
+          case 1:
+             c.insert();
+             break;
+
+          case 2:
+             c.deleteCdll();
+             break;
+
+          case 3:
+             int x1;
+             cout<<"Enter Data to be Search: ";
+             cin>>x1;
+             c.searchFromHead(x1);
+             break;
+
+          case 4:
+             int x2;
+             cout<<"Enter Data to be search: ";
+             cin>>x2;
+             c.searchFromRear(x2);
+             break;
+
+          case 5:
+             c.displayHeadToRear();
+             break;
+
+           case 6:
+             c.displayRearToHead();
+             break;
+          
+           case 7:
+             c.count();
+             break;
+
+           case 8:
+             c.destroy();
+             break;
+      
+           case 9:
+              cout<<"EXIT"<<endl;
+              break;
+
+           default:
+              cout<<"Invalid Choice. Enter Valid Choice"<<endl;
+       }
+    }while(ch!=9);
+
+     return 0;
+}
+ 
